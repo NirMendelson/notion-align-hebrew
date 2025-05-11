@@ -63,10 +63,10 @@ The extension analyzes text content in Notion and:
 - [ ] Test with different Notion page types
 
 ### Documentation and Deployment
-- [x] Complete user documentation
-- [x] Create installation guide
-- [x] Prepare Chrome Web Store listing
-- [x] Set up automated deployment process
+- [ ] Complete user documentation
+- [ ] Create installation guide
+- [ ] Prepare Chrome Web Store listing
+- [ ] Set up automated deployment process
 
 ## Technical Requirements
 
