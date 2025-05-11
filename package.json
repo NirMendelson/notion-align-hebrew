@@ -1,0 +1,11 @@
+{
+  "name": "notion-align-hebrew",
+  "version": "1.0.0",
+  "description": "Chrome extension for automatic Hebrew text alignment in Notion",
+  "scripts": {
+    "generate-icons": "node generate-icons.js"
+  },
+  "dependencies": {
+    "sharp": "^0.32.1"
+  }
+} 
