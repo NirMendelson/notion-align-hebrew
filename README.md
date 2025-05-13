@@ -44,6 +44,12 @@ The extension analyzes text content in Notion and:
 - [x] Implement alignment logic based on language dominance
 - [x] Implement live alignment as user types
 
+### Component Support
+- [x] Implement alignment for regular paragraph text
+- [x] Add support for heading components (h1, h2, h3)
+- [x] Add support for to-do list items
+- [x] Add support for bullet points and numbered lists
+
 ### Notion Integration
 - [x] Create content script for Notion page injection
 - [x] Implement DOM mutation observer for dynamic content

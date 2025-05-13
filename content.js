@@ -85,29 +85,23 @@ const blockObservers = new WeakMap();
 function processTextNode(node) {
     let text = node.textContent;
     if (!text.trim()) return;
-    // Walk up to the closest parent with class 'notion-text-block'
+
+    // Find the appropriate parent block
     let block = node.parentElement;
-    while (block && (!block.classList || !block.classList.contains('notion-text-block'))) {
+    while (block && (!block.classList || 
+           (!block.classList.contains('notion-text-block') && 
+            !block.classList.contains('notion-header-block') &&
+            !block.classList.contains('notion-sub_header-block') &&
+            !block.classList.contains('notion-sub_sub_header-block') &&
+            !block.classList.contains('notion-to_do-block') &&
+            !block.classList.contains('notion-bulleted_list-block') &&
+            !block.classList.contains('notion-numbered_list-block')))) {
         block = block.parentElement;
     }
     if (!block) return;
+
     const alignment = determineAlignment(text);
-    // Debug print
-    const computed = window.getComputedStyle(block);
-    console.log('Block:', block, {
-        inlineTextAlign: block.style.textAlign,
-        inlineDirection: block.style.direction,
-        computedTextAlign: computed.textAlign,
-        computedDirection: computed.direction
-    });
-    // Print when starting to write
-    if (text.trim().length === 1) {
-        if (alignment === 'right') {
-            console.log('Starting writing in Hebrew');
-        } else {
-            console.log('Starting writing in English');
-        }
-    }
+    
     // Set alignment
     if (alignment === 'right') {
         block.style.setProperty('text-align', 'right', 'important');
@@ -116,6 +110,7 @@ function processTextNode(node) {
         block.style.setProperty('text-align', 'left', 'important');
         block.style.setProperty('direction', 'ltr', 'important');
     }
+
     // Add a MutationObserver to re-apply alignment if Notion wipes it
     if (!blockObservers.has(block)) {
         const observer = new MutationObserver(() => {
