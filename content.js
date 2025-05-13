@@ -4,7 +4,6 @@ const ENGLISH_REGEX = /[a-zA-Z]/;
 
 // Initialize the extension
 function initialize() {
-    // Create a mutation observer to watch for changes in the Notion page
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.type === 'childList') {
@@ -17,14 +16,12 @@ function initialize() {
         });
     });
 
-    // Start observing the document with the configured parameters
     observer.observe(document.body, {
         childList: true,
         subtree: true,
         characterData: true
     });
 
-    // Process existing content
     processNewNodes([document.body]);
 }
 
@@ -40,9 +37,7 @@ function processNewNodes(nodes) {
         if (node.nodeType === Node.TEXT_NODE) {
             processTextNode(node);
         } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Skip certain Notion elements that shouldn't be processed
             if (shouldSkipElement(node)) return;
-            // Process child nodes recursively
             Array.from(node.childNodes).forEach(processNewNodes);
         }
     });
@@ -50,11 +45,8 @@ function processNewNodes(nodes) {
 
 // Check if element should be skipped
 function shouldSkipElement(element) {
-    // Skip if element is hidden
     if (!element.offsetParent) return true;
-    // Skip if element is already processed
     if (element.dataset.rtlProcessed === 'true') return true;
-    // Skip certain Notion elements
     const skipClasses = ['notion-page-controls', 'notion-sidebar'];
     if (skipClasses.some(className => element.classList.contains(className))) return true;
     return false;
@@ -86,7 +78,6 @@ function processTextNode(node) {
     let text = node.textContent;
     if (!text.trim()) return;
 
-    // Find the appropriate parent block
     let block = node.parentElement;
     while (block && (!block.classList || 
            (!block.classList.contains('notion-text-block') && 
@@ -102,7 +93,6 @@ function processTextNode(node) {
 
     const alignment = determineAlignment(text);
     
-    // Set alignment
     if (alignment === 'right') {
         block.style.setProperty('text-align', 'right', 'important');
         block.style.setProperty('direction', 'rtl', 'important');
@@ -111,10 +101,8 @@ function processTextNode(node) {
         block.style.setProperty('direction', 'ltr', 'important');
     }
 
-    // Add a MutationObserver to re-apply alignment if Notion wipes it
     if (!blockObservers.has(block)) {
         const observer = new MutationObserver(() => {
-            // If Notion wipes the style, re-apply
             if (alignment === 'right') {
                 block.style.setProperty('text-align', 'right', 'important');
                 block.style.setProperty('direction', 'rtl', 'important');
@@ -138,25 +126,14 @@ function determineAlignment(text) {
         const ratio = countLanguageRatio(text);
         return ratio > 0.3 ? 'right' : 'left';
     }
-    return 'left'; // Default alignment
+    return 'left';
 }
 
 // Count the ratio of Hebrew to total words
 function countLanguageRatio(text) {
     const words = text.split(/\s+/).filter(word => word.length > 0);
     const hebrewWords = words.filter(word => HEBREW_REGEX.test(word));
-    const ratio = hebrewWords.length / words.length;
-    return ratio;
-}
-
-// Apply alignment to an element
-function applyAlignment(element, alignment) {
-    element.style.textAlign = alignment;
-    if (alignment === 'right') {
-        element.style.direction = 'rtl';
-    } else {
-        element.style.direction = 'ltr';
-    }
+    return hebrewWords.length / words.length;
 }
 
 // Listen for messages from popup
