@@ -74,6 +74,41 @@ The extension analyzes text content in Notion and:
 - [ ] Prepare Chrome Web Store listing
 - [ ] Set up automated deployment process
 
+## Deployment to Chrome Web Store
+
+1. **Prepare Your Extension**
+   - Ensure all files are in the root directory
+   - Verify manifest.json is properly configured
+   - Test the extension thoroughly
+
+2. **Package Your Extension**
+   - Create a ZIP file containing:
+     - manifest.json
+     - content.js
+     - popup.html
+     - popup.js
+     - styles.css
+     - icons/ (directory with all icon sizes)
+
+3. **Chrome Web Store Submission**
+   - Go to [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole)
+   - Pay one-time $5 developer registration fee
+   - Click "New Item" and upload your ZIP file
+   - Fill in the store listing:
+     - Detailed description
+     - At least 2 screenshots
+     - Small tile image (128x128)
+     - Large tile image (440x280)
+     - Category: Productivity
+     - Language: English
+   - Set visibility (Public/Unlisted)
+   - Submit for review
+
+4. **Post-Submission**
+   - Wait for review (usually 2-3 business days)
+   - Address any feedback from reviewers
+   - Once approved, your extension will be live
+
 ## Technical Requirements
 
 - Chrome Extension Manifest V3
