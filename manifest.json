@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Notion Align Hebrew",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automatically detects and adjusts text alignment in Notion based on Hebrew and English content",
   "permissions": [
     "activeTab",
